@@ -116,6 +116,11 @@ export default function PartnerPage() {
       return;
     }
 
+    if (profile.role === "warehouse_keeper") {
+      router.replace("/service/products/scan");
+      return;
+    }
+
     setCanSeeReport(["director", "administrator"].includes(profile.role));
     setCanSeeOwners(profile.role !== "rental_manager");
     setRole(profile.role);

@@ -49,6 +49,11 @@ export default function HomePage() {
         return;
       }
 
+      if (profile.role === "warehouse_keeper") {
+        router.replace("/service/products/scan");
+        return;
+      }
+
       setRole(profile.role);
       setFullName(profile.full_name || "");
       setLoading(false);
@@ -76,6 +81,8 @@ export default function HomePage() {
         return "Driver";
       case "vehicle_owner":
         return "Vehicle Owner";
+      case "warehouse_keeper":
+        return "Завхоз (только склад)";
       default:
         return role;
     }

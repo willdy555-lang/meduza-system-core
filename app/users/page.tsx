@@ -93,6 +93,8 @@ export default function UsersPage() {
         return "Service Manager";
       case "vehicle_owner":
         return "Vehicle Owner";
+      case "warehouse_keeper":
+        return "Завхоз (только склад)";
       default:
         return role;
     }

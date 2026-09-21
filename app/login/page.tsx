@@ -75,6 +75,12 @@ export default function LoginPage() {
       return;
     }
 
+    if (profile.role === "warehouse_keeper") {
+      router.push("/service/products/scan");
+      router.refresh();
+      return;
+    }
+
     router.push("/");
     router.refresh();
   }

@@ -242,6 +242,7 @@ export default function UserEditPage() {
               <option value="rental_manager">Rental Manager</option>
               <option value="service_manager">Service Manager</option>
               <option value="vehicle_owner">Vehicle Owner</option>
+              <option value="warehouse_keeper">Завхоз (только склад)</option>
             </select>
           </Field>
 

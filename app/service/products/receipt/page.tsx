@@ -10,7 +10,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 );
 
-const ALLOWED_ROLES = ["director", "administrator", "service_manager"];
+const ALLOWED_ROLES = ["director", "administrator", "service_manager", "warehouse_keeper"];
 
 type Product = {
   id: string;

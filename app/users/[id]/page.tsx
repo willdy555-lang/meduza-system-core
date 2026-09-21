@@ -84,6 +84,9 @@ export default function UserViewPage() {
       case "vehicle_owner":
         return "Vehicle Owner";
 
+      case "warehouse_keeper":
+        return "Завхоз (только склад)";
+
       default:
         return role;
     }

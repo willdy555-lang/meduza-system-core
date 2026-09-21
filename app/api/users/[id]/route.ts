@@ -26,6 +26,7 @@ const allowedRoles = [
   "rental_manager",
   "service_manager",
   "vehicle_owner",
+  "warehouse_keeper",
 ];
 
 async function getRequester(request: NextRequest) {

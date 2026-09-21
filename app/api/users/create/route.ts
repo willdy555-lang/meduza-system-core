@@ -18,6 +18,7 @@ const allowedRoles = [
   "rental_manager",
   "service_manager",
   "vehicle_owner",
+  "warehouse_keeper",
 ];
 
 export async function POST(request: NextRequest) {

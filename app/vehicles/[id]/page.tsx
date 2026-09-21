@@ -121,6 +121,9 @@ function VehicleDetailsPageInner() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [role, setRole] = useState("");
+  const [notesDraft, setNotesDraft] = useState("");
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [notesSavedAt, setNotesSavedAt] = useState<number | null>(null);
 
   useEffect(() => {
     async function loadVehicle() {
@@ -180,6 +183,7 @@ function VehicleDetailsPageInner() {
       }
 
       setVehicle(vehicleData);
+      setNotesDraft(vehicleData.notes || "");
 
       if (vehicleData.owner_id) {
         const { data: ownerData, error: ownerError } = await supabase
@@ -200,6 +204,28 @@ function VehicleDetailsPageInner() {
       loadVehicle();
     }
   }, [vehicleId, router]);
+
+  async function saveNotes() {
+    if (!vehicle) return;
+
+    setSavingNotes(true);
+
+    const { error } = await supabase
+      .from("vehicles")
+      .update({ notes: notesDraft.trim().length > 0 ? notesDraft : null })
+      .eq("id", vehicleId);
+
+    setSavingNotes(false);
+
+    if (error) {
+      console.error(error);
+      alert("Не удалось сохранить примечание.");
+      return;
+    }
+
+    setVehicle({ ...vehicle, notes: notesDraft });
+    setNotesSavedAt(Date.now());
+  }
 
   function openPage(url: string) {
     window.location.href = url;
@@ -492,6 +518,85 @@ function VehicleDetailsPageInner() {
                 }
               }}
             />
+          </div>
+        </section>
+
+        <section
+          style={{
+            background: "white",
+            border: "1px solid #e5e7eb",
+            borderRadius: 14,
+            padding: 24,
+            boxShadow: "0 1px 4px rgba(0,0,0,.05)",
+            marginTop: 20,
+          }}
+        >
+          <h2
+            style={{
+              marginTop: 0,
+              marginBottom: 16,
+              fontSize: 22,
+            }}
+          >
+            Примечания
+          </h2>
+
+          <textarea
+            value={notesDraft}
+            onChange={(e) => setNotesDraft(e.target.value)}
+            placeholder="Заметки по этому автомобилю: особенности, договорённости, что учесть при обслуживании..."
+            rows={4}
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              padding: "12px 14px",
+              border: "1px solid #d1d5db",
+              borderRadius: 8,
+              fontSize: 15,
+              fontFamily: "inherit",
+              resize: "vertical",
+              color: "#111827",
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 14,
+              marginTop: 12,
+            }}
+          >
+            <button
+              type="button"
+              onClick={saveNotes}
+              disabled={savingNotes || notesDraft === (vehicle.notes || "")}
+              style={{
+                height: 40,
+                padding: "0 18px",
+                border: "none",
+                borderRadius: 8,
+                background:
+                  savingNotes || notesDraft === (vehicle.notes || "")
+                    ? "#9ca3af"
+                    : "#2563eb",
+                color: "white",
+                fontWeight: 600,
+                fontSize: 14,
+                cursor:
+                  savingNotes || notesDraft === (vehicle.notes || "")
+                    ? "not-allowed"
+                    : "pointer",
+              }}
+            >
+              {savingNotes ? "Сохранение..." : "Сохранить примечание"}
+            </button>
+
+            {notesSavedAt && notesDraft === (vehicle.notes || "") && (
+              <span style={{ color: "#16a34a", fontSize: 14 }}>
+                Сохранено
+              </span>
+            )}
           </div>
         </section>
 

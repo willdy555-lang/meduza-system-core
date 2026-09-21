@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 
@@ -32,6 +32,14 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function VehiclesPage() {
+  return (
+    <Suspense fallback={<main style={{ padding: 32 }}>Загрузка...</main>}>
+      <VehiclesPageInner />
+    </Suspense>
+  );
+}
+
+function VehiclesPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

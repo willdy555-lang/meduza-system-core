@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 
@@ -55,6 +55,14 @@ function formatDate(dateStr: string) {
 }
 
 export default function VehicleDocumentsPage() {
+  return (
+    <Suspense fallback={<main style={{ padding: 32 }}>Загрузка...</main>}>
+      <VehicleDocumentsPageInner />
+    </Suspense>
+  );
+}
+
+function VehicleDocumentsPageInner() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();

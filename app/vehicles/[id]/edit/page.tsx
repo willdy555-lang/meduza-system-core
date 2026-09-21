@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 
@@ -103,6 +103,14 @@ function nullable(value: string) {
 }
 
 export default function EditVehiclePage() {
+  return (
+    <Suspense fallback={<main style={{ padding: 32 }}>Загрузка...</main>}>
+      <EditVehiclePageInner />
+    </Suspense>
+  );
+}
+
+function EditVehiclePageInner() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();

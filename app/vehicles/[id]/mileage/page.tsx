@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 
@@ -40,6 +40,14 @@ const entryTypeLabels: Record<string, string> = {
 };
 
 export default function MileageHistoryPage() {
+  return (
+    <Suspense fallback={<main style={{ padding: 32 }}>Загрузка...</main>}>
+      <MileageHistoryPageInner />
+    </Suspense>
+  );
+}
+
+function MileageHistoryPageInner() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();

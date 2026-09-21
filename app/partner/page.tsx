@@ -126,6 +126,7 @@ export default function PartnerPage() {
       .select(
         "id, plate_number, make, model, status, insurance_expires_at, inspection_expires_at"
       )
+      .eq("vehicle_scope", "partner")
       .neq("status", "inactive")
       .is("archived_at", null);
 
